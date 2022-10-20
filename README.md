@@ -1,12 +1,12 @@
-# Airflow-EMR-Spark
+# [Airflow-EMR-Spark](https://github.com/vaishali-yasala/Airflow-EMR-Spark/blob/main/dags/airflow_spark_emr_job.py)
 Using airflow upload data to s3 bucket and then create emr cluster, read data into hdfs from s3 as a step, submit a job as a step , wait for the step to finish and then terminate the emr cluster
 
 ## How it works
 
 ### Step One: Move data and Spark scripts to S3 Bucket
 Initially, we create a DAG file using airflow, which uploads files from local to AWS S3 chosen bucket. These files include:
-1. [sales-data.csv]() - this contains the data we are trying to analyze 
-2. [main.py]() - The script below is written in Python to analyze the sales data using Spark RDD transformations and actions.
+1. [sales-data.csv](https://raw.githubusercontent.com/vaishali-yasala/Airflow-EMR-Spark/main/dags/data/sales-data.csv) - this contains the data we are trying to analyze 
+2. [main.py](https://github.com/vaishali-yasala/Airflow-EMR-Spark/blob/main/dags/scripts/main.py) - The script below is written in Python to analyze the sales data using Spark RDD transformations and actions.
 
 ![Script](Images/Script.png)
 Moving data 
@@ -42,3 +42,8 @@ The DAG below depicts the flow of Airflow, EMR and Spark association to process 
 ![DAG](Images/Airflow_DAG.png)
 
 
+Let us look at the output folder where the results files are stored in S3. part-00000 to part-00009 represents data from 10 partitions of data. 
+![S3_Output](Images/S3_Output_Folder.png) 
+
+This is the screenshot of data stored in partition 1.
+![output_part_1](Images/Output%231.png)
