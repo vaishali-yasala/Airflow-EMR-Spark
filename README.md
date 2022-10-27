@@ -8,7 +8,11 @@ Initially, we create a DAG file using airflow, which uploads files from local to
 1. [sales-data.csv](https://raw.githubusercontent.com/vaishali-yasala/Airflow-EMR-Spark/main/dags/data/sales-data.csv) - this contains the data we are trying to analyze 
 2. [main.py](https://github.com/vaishali-yasala/Airflow-EMR-Spark/blob/main/dags/scripts/main.py) - The script below is written in Python to analyze the sales data using Spark RDD transformations and actions.
 
+This is main.py mentioned above which gets data from s3 and stores in HDFS and then runs the code to transform the data and give out the desired output. The desired output is sent HDFS and additional step is required to further move it S3 and be accesible from there. 
 ![Script](Images/Script.png)
+
+The simplest way to reduce the steps is to get data directly from S3 and move the resultant output to S3. 
+![script_s3](Images/script_s3.png)
 Moving data 
 ![DAG](Images/Moving_to_S3.png)
 
@@ -29,6 +33,10 @@ Add multiple steps to the EMR cluster created. These include:
 3. <b> Move output data from HDFS to S3 </b> - this sends the output from HDFS to S3 chosen bucket folder output_data.
 
 ![Spark_steps](Images/Spark_steps.png)
+
+The above three steps can be reduced to one by accessing  the data directly from S3 and sending the resultant output to a folder in S3.
+![Spark_steps_s3](Images/spark_steps_s3.png)
+
 ![Steps](Images/Steps.png)
 
 ### Step Four: Terminate the EMR cluster
