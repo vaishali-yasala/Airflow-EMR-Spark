@@ -1,6 +1,5 @@
 
 from pyspark.sql import SparkSession
-from tempfile import NamedTemporaryFile
 from decimal import Decimal
 from pyspark.sql.types import DecimalType, StructType, StructField, StringType
 
@@ -24,11 +23,8 @@ if __name__ == '__main__':
         .getOrCreate()
 
 
-#Store the path of the data file in a variable
-data_file = '/sales/sales-data.csv'
-
 #Read the csv into a dataframe
-sales_data_df = spark.read.csv(data_file, header=True, sep=",").cache()
+sales_data_df = spark.read.csv("s3a://vaishali-emr-s3-testing/data/sales-data.csv", header=True, sep=",").cache()
 df1 = sales_data_df.select(sales_data_df["Country"],sales_data_df["UnitPrice"], sales_data_df["Quantity"]).repartition(10)
 
 #Get UnitPrice*Quantity and Country wise sales
@@ -39,7 +35,7 @@ schema = StructType([StructField("country", StringType()), StructField("total_sa
 mapped_rdd.toDF(schema = schema).show(5)
 
 #Save it to a file or files in HDFS
-mapped_rdd.saveAsTextFile('/output')
+mapped_rdd.saveAsTextFile('s3a://vaishali-emr-s3-testing/output/')
 
 
 
